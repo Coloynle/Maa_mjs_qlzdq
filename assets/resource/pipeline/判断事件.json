@@ -3,13 +3,13 @@
         "$__mpe_code": {
             "prefix": "",
             "filePath": "D:\\game\\Maa_mjs_qlzdq\\assets\\resource\\pipeline\\判断事件.json",
-            "lastSyncTime": 1782370961217,
+            "lastSyncTime": 1782373026689,
             "isModifiedExternally": false,
             "coordinateMode": "absolute-v1",
             "savedViewport": {
-                "x": 398,
-                "y": -165,
-                "zoom": 0.32
+                "x": -346,
+                "y": -582,
+                "zoom": 0.8
             },
             "filename": "判断事件",
             "version": "v1.6.2"
@@ -272,9 +272,10 @@
                     374
                 ],
                 "expected": [
-                    "接下来的3场战斗中，你获得的战法牌全部转化为天雷",
-                    "接下来的5场战中，你无法获得太平百钱",
-                    "接下来的4场战斗中，你无法打出桃"
+                    "你获得的战法牌全部转化为天雷",
+                    "你无法获得太平百钱",
+                    "你无法打出桃",
+                    "你无法打出装备牌"
                 ]
             }
         },
