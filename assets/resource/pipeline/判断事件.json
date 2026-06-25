@@ -3,12 +3,12 @@
         "$__mpe_code": {
             "prefix": "",
             "filePath": "D:\\game\\Maa_mjs_qlzdq\\assets\\resource\\pipeline\\判断事件.json",
-            "lastSyncTime": 1782373026689,
+            "lastSyncTime": 1782374839598,
             "isModifiedExternally": false,
             "coordinateMode": "absolute-v1",
             "savedViewport": {
-                "x": -346,
-                "y": -582,
+                "x": 65,
+                "y": -949,
                 "zoom": 0.8
             },
             "filename": "判断事件",
@@ -238,10 +238,10 @@
             "type": "TemplateMatch",
             "param": {
                 "roi": [
-                    688,
+                    407,
                     209,
-                    90,
-                    330
+                    374,
+                    336
                 ],
                 "template": [
                     "十常侍.png"
@@ -418,10 +418,10 @@
             "type": "TemplateMatch",
             "param": {
                 "roi": [
-                    693,
-                    214,
-                    82,
-                    316
+                    407,
+                    209,
+                    374,
+                    336
                 ],
                 "template": [
                     "朏朏.png"
@@ -477,10 +477,10 @@
             "type": "TemplateMatch",
             "param": {
                 "roi": [
-                    693,
-                    211,
-                    86,
-                    320
+                    407,
+                    209,
+                    374,
+                    336
                 ],
                 "template": [
                     "火堆.png"
@@ -521,7 +521,8 @@
         },
         "timeout": 3000,
         "next": [
-            "事件战斗"
+            "事件战斗",
+            "事件确认"
         ],
         "on_error": [
             "判断事件"
@@ -566,10 +567,10 @@
             "type": "TemplateMatch",
             "param": {
                 "roi": [
-                    698,
-                    222,
-                    81,
-                    311
+                    407,
+                    209,
+                    374,
+                    336
                 ],
                 "template": [
                     "狗卡.png"
@@ -584,7 +585,7 @@
         ],
         "$__mpe_code": {
             "position": {
-                "x": 332,
+                "x": 333,
                 "y": 293
             }
         }
@@ -625,10 +626,10 @@
             "type": "TemplateMatch",
             "param": {
                 "roi": [
-                    698,
-                    215,
-                    80,
-                    310
+                    407,
+                    209,
+                    374,
+                    336
                 ],
                 "template": [
                     "福袋.png"
@@ -655,10 +656,10 @@
             "type": "TemplateMatch",
             "param": {
                 "roi": [
-                    694,
-                    208,
-                    82,
-                    331
+                    407,
+                    209,
+                    374,
+                    336
                 ],
                 "template": [
                     "诸葛亮.png"
@@ -806,10 +807,10 @@
             "type": "TemplateMatch",
             "param": {
                 "roi": [
-                    704,
-                    390,
-                    60,
-                    42
+                    407,
+                    209,
+                    374,
+                    336
                 ],
                 "template": [
                     "战斗.png"

@@ -3,13 +3,13 @@
         "$__mpe_code": {
             "prefix": "",
             "coordinateMode": "absolute-v1",
-            "lastSyncTime": 1782354209397,
+            "lastSyncTime": 1782361315145,
             "isModifiedExternally": false,
             "filePath": "D:\\game\\Maa_mjs_qlzdq\\assets\\resource\\pipeline\\千里开局.json",
             "savedViewport": {
-                "x": -988,
-                "y": 151,
-                "zoom": 0.94
+                "x": -264,
+                "y": 212,
+                "zoom": 0.59
             },
             "filename": "千里开局",
             "version": "v1.6.2"
@@ -72,9 +72,6 @@
         "next": [
             "临时战斗"
         ],
-        "on_error": [
-            "战斗1"
-        ],
         "$__mpe_code": {
             "position": {
                 "x": 1622,
@@ -130,6 +127,9 @@
         },
         "next": [
             "对局"
+        ],
+        "on_error": [
+            "战斗1"
         ],
         "$__mpe_code": {
             "position": {
