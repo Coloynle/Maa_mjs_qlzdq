@@ -1,4 +1,20 @@
 {
+    "$__mpe_config_选择赠礼": {
+        "$__mpe_code": {
+            "prefix": "",
+            "filePath": "D:\\game\\Maa_mjs_qlzdq\\assets\\resource\\pipeline\\选择赠礼.json",
+            "lastSyncTime": 1782457209026,
+            "isModifiedExternally": false,
+            "coordinateMode": "absolute-v1",
+            "savedViewport": {
+                "x": 211,
+                "y": 38,
+                "zoom": 0.79
+            },
+            "filename": "选择赠礼",
+            "version": "v1.6.2"
+        }
+    },
     "不拿信物": {
         "recognition": {
             "type": "OCR",
@@ -17,9 +33,18 @@
         "action": {
             "type": "Click"
         },
+        "on_error": [
+            "不拿信物"
+        ],
         "next": [
-            "驰援"
-        ]
+            "驰援排序"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 332,
+                "y": 593
+            }
+        }
     },
     "信物": {
         "recognition": {
@@ -43,8 +68,14 @@
             "type": "Click"
         },
         "next": [
-            "判断事件"
-        ]
+            "继续战斗"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 692,
+                "y": 74
+            }
+        }
     },
     "必拿赠礼": {
         "recognition": {
@@ -62,7 +93,8 @@
                     "关羽",
                     "甘宁",
                     "黄忠",
-                    "赵云"
+                    "赵云",
+                    "刘表"
                 ]
             }
         },
@@ -71,56 +103,16 @@
         },
         "next": [
             "信物"
-        ]
-    },
-    "选择赠礼": {
-        "recognition": {
-            "type": "OCR",
-            "param": {
-                "roi": [
-                    570,
-                    597,
-                    135,
-                    48
-                ],
-                "expected": [
-                    "接受谁的"
-                ]
-            }
-        },
-        "next": [
-            "必拿赠礼",
-            "必拿驰援",
-            "不拿信物",
-            "判断事件"
         ],
         "on_error": [
-            "确认"
-        ]
-    },
-    "驰援": {
-        "recognition": {
-            "type": "OCR",
-            "param": {
-                "roi": [
-                    493,
-                    174,
-                    232,
-                    371
-                ],
-                "expected": [
-                    "驰援",
-                    "资助",
-                    "武将牌"
-                ]
+            "必拿赠礼"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 334,
+                "y": 64
             }
-        },
-        "action": {
-            "type": "Click"
-        },
-        "next": [
-            "判断事件"
-        ]
+        }
     },
     "必拿驰援": {
         "recognition": {
@@ -148,7 +140,48 @@
         },
         "next": [
             "驰援排序"
-        ]
+        ],
+        "on_error": [
+            "必拿驰援"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 352,
+                "y": 321
+            }
+        }
+    },
+    "选择赠礼": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    570,
+                    597,
+                    135,
+                    48
+                ],
+                "expected": [
+                    "接受谁的"
+                ]
+            }
+        },
+        "next": [
+            "必拿赠礼",
+            "必拿驰援",
+            "不拿信物",
+            "继续战斗"
+        ],
+        "on_error": [
+            "确认",
+            "选择赠礼"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 12,
+                "y": 322
+            }
+        }
     },
     "驰援排序": {
         "recognition": {
@@ -172,7 +205,29 @@
             "type": "Click"
         },
         "next": [
-            "判断事件"
-        ]
+            "继续战斗"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 737,
+                "y": 487
+            }
+        }
+    },
+    "$__mpe_external_继续战斗_选择赠礼": {
+        "$__mpe_code": {
+            "position": {
+                "x": 1137,
+                "y": 368
+            }
+        }
+    },
+    "$__mpe_external_确认_选择赠礼": {
+        "$__mpe_code": {
+            "position": {
+                "x": -70,
+                "y": 67
+            }
+        }
     }
 }
