@@ -3,13 +3,13 @@
         "$__mpe_code": {
             "prefix": "",
             "coordinateMode": "absolute-v1",
-            "lastSyncTime": 1782465165519,
+            "lastSyncTime": 1782466568177,
             "isModifiedExternally": false,
             "filePath": "D:\\game\\Maa_mjs_qlzdq\\assets\\resource\\pipeline\\继续挑战.json",
             "savedViewport": {
-                "x": 241,
-                "y": -362,
-                "zoom": 0.6
+                "x": 158,
+                "y": 107,
+                "zoom": 0.95
             },
             "filename": "继续挑战",
             "version": "v1.6.2"
@@ -307,6 +307,35 @@
             "position": {
                 "x": 725,
                 "y": 900
+            }
+        }
+    },
+    "商店": {
+        "recognition": {
+            "type": "TemplateMatch",
+            "param": {
+                "roi": [
+                    407,
+                    209,
+                    374,
+                    336
+                ],
+                "template": [
+                    "商店.png"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "next": [
+            "商店",
+            "退出商店"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 352,
+                "y": 34
             }
         }
     },
@@ -914,37 +943,6 @@
             "position": {
                 "x": 340,
                 "y": 1393
-            }
-        }
-    },
-    "商店": {
-        "recognition": {
-            "type": "TemplateMatch",
-            "param": {
-                "roi": [
-                    407,
-                    209,
-                    374,
-                    336
-                ],
-                "template": [
-                    "商店.png"
-                ]
-            }
-        },
-        "action": {
-            "type": "Click"
-        },
-        "next": [
-            "退出商店"
-        ],
-        "on_error": [
-            "商店"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 352,
-                "y": 34
             }
         }
     }

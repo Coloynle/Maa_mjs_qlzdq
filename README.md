@@ -14,8 +14,8 @@
 
 ## 使用说明
 
-1. 下载最新 Release 中的压缩包并解压
-2. 以管理员身份运行DependencySetup_依赖库安装_win.bat（不确认不安装是否能运行）
+1. 本应用基于mumu模拟器运行，使用别的模拟器不确保能否运行。
+2. 下载最新 Release 中的压缩包并解压，以管理员身份运行DependencySetup_依赖库安装_win.bat。
 3. 运行启动程序  MFAAvalonia.exe
 4. 根据界面提示选择控制器和任务
 
