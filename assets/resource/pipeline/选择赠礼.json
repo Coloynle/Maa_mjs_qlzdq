@@ -3,13 +3,13 @@
         "$__mpe_code": {
             "prefix": "",
             "filePath": "D:\\game\\Maa_mjs_qlzdq\\assets\\resource\\pipeline\\选择赠礼.json",
-            "lastSyncTime": 1782789819225,
+            "lastSyncTime": 1782793892188,
             "isModifiedExternally": false,
             "coordinateMode": "absolute-v1",
             "savedViewport": {
-                "x": 435,
-                "y": 94,
-                "zoom": 0.63
+                "x": 535,
+                "y": 175,
+                "zoom": 0.4
             },
             "filename": "选择赠礼",
             "version": "v1.7.0"
@@ -31,194 +31,26 @@
             }
         }
     },
-    "不拿排序": {
-        "recognition": {
-            "type": "OCR",
-            "param": {
-                "roi": [
-                    522,
-                    171,
-                    171,
-                    377
-                ],
-                "expected": [
-                    "资助",
-                    "武将牌",
-                    "驰援",
-                    "信物",
-                    "并肩作战"
-                ],
-                "order_by": "Expected"
-            }
-        },
-        "action": {
-            "type": "Click"
-        },
-        "next": [
-            "继续战斗"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 690,
-                "y": 697
-            }
-        }
-    },
-    "不拿赠礼": {
-        "recognition": {
-            "type": "OCR",
-            "param": {
-                "roi": [
-                    531,
-                    504,
-                    220,
-                    51
-                ],
-                "expected": [
-                    "赠礼"
-                ]
-            }
-        },
-        "action": {
-            "type": "Click"
-        },
-        "next": [
-            "不拿排序"
-        ],
-        "on_error": [
-            "不拿赠礼"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 312,
-                "y": 695
-            }
-        }
-    },
-    "信物排序": {
-        "recognition": {
-            "type": "OCR",
-            "param": {
-                "roi": [
-                    522,
-                    171,
-                    171,
-                    377
-                ],
-                "expected": [
-                    "信物",
-                    "驰援",
-                    "资助",
-                    "武将牌",
-                    "并肩作战"
-                ],
-                "order_by": "Expected"
-            }
-        },
-        "action": {
-            "type": "Click"
-        },
-        "next": [
-            "标记已领取",
-            "信物排序",
-            "继续战斗"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 692,
-                "y": 74
-            }
-        }
-    },
-    "必拿信物": {
+    "动态选择赠礼": {
         "recognition": { "type": "DirectHit" },
         "action": {
             "type": "Custom",
             "param": {
-                "custom_action": "click_general",
-                "custom_action_param": "{\"category\": \"cat1\", \"list\": \"{cat1_list}\"}"
-            }
-        },
-        "next": ["信物排序"],
-        "on_error": ["必拿信物"],
-        "$__mpe_code": {
-            "position": { "x": 334, "y": 124 }
-        }
-    },
-    "必拿信物-记录": {
-        "recognition": { "type": "DirectHit" },
-        "action": {
-            "type": "Custom",
-            "param": {
-                "custom_action": "pick_and_record",
+                "custom_action": "handle_gift_selection",
                 "custom_action_param": {
-                    "category": "cat1",
-                    "list": "{cat1_list}"
+                    "cat1_list": "{cat1_list}",
+                    "cat2_list": "{cat2_list}"
                 }
             }
         },
-        "next": [
-            "必拿信物"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 70,
-                "y": 86
-            }
-        }
-    },
-    "必拿驰援": {
-        "recognition": { "type": "DirectHit" },
-        "action": {
-            "type": "Custom",
-            "param": {
-                "custom_action": "click_general",
-                "custom_action_param": "{\"category\": \"cat2\", \"list\": \"{cat2_list}\"}"
-            }
-        },
-        "next": ["驰援排序-记录"],
-        "on_error": ["必拿驰援"],
-        "$__mpe_code": {
-            "position": { "x": 337, "y": 381 }
-        }
-    },
-    "必拿驰援-记录": {
-        "recognition": { "type": "DirectHit" },
-        "action": {
-            "type": "Custom",
-            "param": {
-                "custom_action": "pick_and_record",
-                "custom_action_param": {
-                    "category": "cat2",
-                    "list": "{cat2_list}"
-                }
-            }
-        },
-        "next": [
-            "必拿驰援"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 69,
-                "y": 335
-            }
-        }
-    },
-    "标记已领取": {
-        "recognition": { "type": "DirectHit" },
-        "action": {
-            "type": "Custom",
-            "param": {
-                "custom_action": "mark_general_claimed"
-            }
-        },
+        "focus": "动态选择赠礼",
         "next": [
             "继续战斗"
         ],
         "$__mpe_code": {
             "position": {
-                "x": 1066,
-                "y": 522
+                "x": 224,
+                "y": 318
             }
         }
     },
@@ -237,65 +69,18 @@
                 ]
             }
         },
+        "focus": "选择赠礼",
+        "next": [
+            "动态选择赠礼"
+        ],
         "on_error": [
             "确认",
             "选择赠礼"
-        ],
-        "next": [
-            "必拿信物-记录",
-            "必拿驰援-记录",
-            "不拿赠礼"
         ],
         "$__mpe_code": {
             "position": {
                 "x": -437,
                 "y": 333
-            }
-        }
-    },"驰援排序-记录": {
-        "recognition": { "type": "DirectHit" },
-        "action": {
-            "type": "Custom",
-            "param": {
-                "custom_action": "record_item"
-            }
-        },
-        "next": ["驰援排序"],
-        "$__mpe_code": {
-            "position": { "x": 687, "y": 350 }
-        }
-    },
-    "驰援排序": {
-        "recognition": {
-            "type": "OCR",
-            "param": {
-                "roi": [
-                    522,
-                    171,
-                    171,
-                    377
-                ],
-                "expected": [
-                    "驰援",
-                    "资助",
-                    "武将牌",
-                    "信物",
-                    "并肩作战"
-                ],
-                "order_by": "Expected"
-            }
-        },
-        "action": {
-            "type": "Click"
-        },
-        "next": [
-            "标记已领取",
-            "驰援排序"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 687,
-                "y": 410
             }
         }
     }

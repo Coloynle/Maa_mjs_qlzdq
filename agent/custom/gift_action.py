@@ -4,12 +4,11 @@
 全局变量：
   _claimed_cat1: set[str]   — 已拿到信物并排除的武将名
   _claimed_cat2: set[str]   — 已拿到"驰援"并排除的武将名
-  _current_general: str     — 当前轮命中的武将名
-  _current_category: str    — "cat1" / "cat2"
 """
 
 import json
 import os
+import time
 
 from maa.agent.agent_server import AgentServer
 from maa.custom_action import CustomAction
@@ -37,8 +36,6 @@ CONFIG_PATH = os.path.join(CONFIG_DIR, "gift_config.json")
 
 _claimed_cat1: set[str] = set()
 _claimed_cat2: set[str] = set()
-_current_general: str = ""
-_current_category: str = ""
 
 
 # ==================== 辅助函数 ====================
@@ -149,29 +146,88 @@ def _ocr_active_general(context: Context, category: str, list_str: str = ""):
     return None
 
 
-# ==================== CustomAction 注册语法说明 ====================
-#
-# @AgentServer.custom_action("动作名")
-# class 类名(CustomAction):
-#     def run(self, context: Context, argv: CustomAction.RunArg) -> bool:
-#         ...
-#
-# 装饰器把类注册为 pipeline 可调用的自定义动作。
-# pipeline JSON 中通过 "custom_action": "动作名" 来引用。
-#
-# run() 参数：
-#   context — 操作上下文
-#   argv    — RunArg 参数包，包含：
-#     .node_name: str               — 当前节点名
-#     .custom_action_name: str      — 注册的动作名
-#     .custom_action_param: str     — pipeline 中 custom_action_param 的值（JSON 字符串）
-#     .reco_detail: RecognitionDetail — 前序识别结果
-#     .box: Rect                    — 前序识别框 [x, y, w, h]
-#
-# 返回值：
-#   True  → 动作成功，pipeline 走 next 列表
-#   False → 动作失败，pipeline 走 on_error 或尝试 next 中下一个
-# =================================================================
+def _click_and_wait(context, box):
+    cx = box[0] + box[2] // 2
+    cy = box[1] + box[3] // 2
+    context.tasker.controller.post_click(cx, cy).wait()
+
+
+def _poll_ocr(context, roi, expected, timeout=6.0, interval=0.2):
+    deadline = time.time() + timeout
+    while time.time() < deadline:
+        context.tasker.controller.post_screencap().wait()
+        try:
+            image = context.tasker.controller.cached_image
+        except RuntimeError:
+            time.sleep(interval)
+            continue
+        reco = context.run_recognition(
+            "_poll",
+            image,
+            {
+                "_poll": {
+                    "recognition": "OCR",
+                    "roi": roi,
+                    "expected": expected,
+                    "order_by": "Expected",
+                }
+            },
+        )
+        if reco and reco.hit and reco.best_result:
+            return reco.best_result
+        time.sleep(interval)
+    return None
+
+
+@AgentServer.custom_action("handle_gift_selection")
+class HandleGiftSelection(CustomAction):
+    def run(self, context, argv):
+        params = (
+            json.loads(argv.custom_action_param)
+            if isinstance(argv.custom_action_param, str)
+            else (argv.custom_action_param or {})
+        )
+        cat1_list = params.get("cat1_list", "")
+        cat2_list = params.get("cat2_list", "")
+
+        context.tasker.controller.post_screencap().wait()
+        result = _ocr_active_general(context, "cat1", cat1_list)
+        if result:
+            _click_and_wait(context, result.box)
+            item = _poll_ocr(context, [522, 171, 171, 377], ["信物"])
+            if item:
+                _click_and_wait(context, item.box)
+                _claimed_cat1.add(result.text)
+            time.sleep(0.5)
+            return True
+
+        context.tasker.controller.post_screencap().wait()
+        result = _ocr_active_general(context, "cat2", cat2_list)
+        if result:
+            _click_and_wait(context, result.box)
+            item = _poll_ocr(context, [522, 171, 171, 377], ["驰援"])
+            if item:
+                _click_and_wait(context, item.box)
+                _claimed_cat2.add(result.text)
+            else:
+                fallback = _poll_ocr(
+                    context, [522, 171, 171, 377],
+                    ["资助", "武将牌", "信物", "并肩作战"], timeout=2
+                )
+                if fallback:
+                    _click_and_wait(context, fallback.box)
+            time.sleep(0.5)
+            return True
+
+        fallback = _poll_ocr(context, [531, 504, 220, 51], ["赠礼"], timeout=3)
+        if fallback:
+            _click_and_wait(context, fallback.box)
+            sort = _poll_ocr(context, [522, 171, 171, 377],
+                             ["资助", "武将牌", "驰援", "信物", "并肩作战"], timeout=3)
+            if sort:
+                _click_and_wait(context, sort.box)
+                time.sleep(0.5)
+        return True
 
 
 @AgentServer.custom_action("reset_gift_state")
@@ -182,144 +238,6 @@ class ResetGiftState(CustomAction):
     """
 
     def run(self, context: Context, argv: CustomAction.RunArg) -> bool:
-        global _claimed_cat1, _claimed_cat2, _current_general, _current_category
         _claimed_cat1.clear()
         _claimed_cat2.clear()
-        _current_general = ""
-        _current_category = ""
-        return True
-
-
-@AgentServer.custom_action("pick_and_record")
-class PickAndRecord(CustomAction):
-    """
-    记录 OCR 命中的武将名到全局状态，不执行点击。
-    点击由后续的 click_general 节点负责。
-
-    读取 argv.custom_action_param 中的 category 和 list：
-      custom_action_param: '{"category": "cat1", "list": "{cat1_list}"}'
-      → category 固定写死，list 由 UI 输入插值替换
-    """
-
-    def run(self, context: Context, argv: CustomAction.RunArg) -> bool:
-        global _current_general, _current_category
-
-        # argv.custom_action_param 是 JSON 字符串，由 pipeline 配置
-        params = (
-            json.loads(argv.custom_action_param) if argv.custom_action_param else {}
-        )
-        category = params.get("category", "")  # "cat1" / "cat2"
-        list_str = params.get("list", "")  # UI 输入的逗号分隔列表（可能为空）
-
-        if category not in ("cat1", "cat2"):
-            return False
-
-        result = _ocr_active_general(context, category, list_str)
-        if not result:
-            return False  # 没匹配到任何活跃武将
-
-        # result.text = OCR 识别出的文本，就是武将名
-        _current_general = result.text
-        _current_category = category
-        return True
-
-
-@AgentServer.custom_action("click_general")
-class ClickGeneral(CustomAction):
-    """
-    在底栏 OCR 匹配武将并点击。
-    与 pick_and_record 使用相同的 category + list 参数，
-    确保点的是同一个武将（同一张截图，结果应一致）。
-    """
-
-    def run(self, context: Context, argv: CustomAction.RunArg) -> bool:
-        params = (
-            json.loads(argv.custom_action_param) if argv.custom_action_param else {}
-        )
-        category = params.get("category", "")
-        list_str = params.get("list", "")
-
-        if category not in ("cat1", "cat2"):
-            return False
-
-        result = _ocr_active_general(context, category, list_str)
-        if not result:
-            return False
-
-        # result.box = [x, y, w, h]，计算中心点坐标
-        box = result.box
-        if not box or len(box) != 4:
-            return False
-        cx = box[0] + box[2] // 2
-        cy = box[1] + box[3] // 2
-
-        # post_click() 是异步操作，返回一个 Job
-        # .wait() 阻塞等待点击完成
-        context.tasker.controller.post_click(cx, cy).wait()
-        return True
-
-
-@AgentServer.custom_action("record_item")
-class RecordItem(CustomAction):
-    """
-    驰援排序后的物品判断：
-    OCR 物品选择区域，检查是否出现了"驰援"。
-    如果不是"驰援" → 释放武将（_current_general 置空），
-    后续 mark_general_claimed 就不会将其加入排除集。
-    """
-
-    def run(self, context: Context, argv: CustomAction.RunArg) -> bool:
-        global _current_general
-
-        # 非 cat2 路径不需要判断，直接放过
-        if _current_category != "cat2":
-            return True
-
-        try:
-            image = context.tasker.controller.cached_image
-        except RuntimeError:
-            return False
-
-        # OCR 物品选择区域，只检查"驰援"是否出现
-        reco = context.run_recognition(
-            "ocr_item",
-            image,
-            {
-                "ocr_item": {
-                    "recognition": "OCR",
-                    "roi": [522, 171, 171, 377],
-                    "expected": ["驰援"],
-                }
-            },
-        )
-
-        # 没匹配到"驰援" → cat2 武将没拿到目标物品 → 不放回排除集
-        if not (reco and reco.hit):
-            _current_general = ""
-
-        return True
-
-
-@AgentServer.custom_action("mark_general_claimed")
-class MarkGeneralClaimed(CustomAction):
-    """
-    标记武将已领取并加入排除集：
-      cat1 → 直接加入 _claimed_cat1
-      cat2 → 仅当 _current_general 有值（即 record_item 确认拿到"驰援"）才加入
-    最后清空临时状态，为下一轮弹窗做准备。
-    """
-
-    def run(self, context: Context, argv: CustomAction.RunArg) -> bool:
-        global _current_general, _current_category
-
-        if _current_category == "cat1" and _current_general:
-            _claimed_cat1.add(_current_general)
-
-        if _current_category == "cat2" and _current_general:
-            _claimed_cat2.add(_current_general)
-
-        # 清空临时状态，下次弹窗重新记录
-        _current_general = ""
-        _current_category = ""
-
         return True
