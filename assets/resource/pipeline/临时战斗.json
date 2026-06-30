@@ -3,31 +3,17 @@
         "$__mpe_code": {
             "prefix": "",
             "filePath": "D:\\game\\Maa_mjs_qlzdq\\assets\\resource\\pipeline\\临时战斗.json",
-            "lastSyncTime": 1782641662781,
+            "lastSyncTime": 1782698132422,
             "isDeleted": true,
             "isModifiedExternally": false,
             "coordinateMode": "absolute-v1",
             "savedViewport": {
-                "x": -1884,
-                "y": -728,
-                "zoom": 0.94
+                "x": -1290,
+                "y": -236,
+                "zoom": 0.59
             },
             "filename": "临时战斗",
-            "version": "v1.6.2"
-        }
-    },
-    "战斗结束截图": {
-        "action": {
-            "type": "Screencap"
-        },
-        "next": [
-            "点击空白"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 3078,
-                "y": 812
-            }
+            "version": "v1.7.0"
         }
     },
     "$__mpe_external_千里开局_临时战斗": {
@@ -57,8 +43,8 @@
     "$__mpe_external_继续战斗_临时战斗": {
         "$__mpe_code": {
             "position": {
-                "x": 2807,
-                "y": 1516
+                "x": 2859,
+                "y": 1541
             }
         }
     },
@@ -88,14 +74,18 @@
         "action": {
             "type": "Click"
         },
+        "post_delay": 1000,
+        "timeout": 6000,
         "next": [
-            "确认",
+            "确认"
+        ],
+        "on_error": [
             "下一步"
         ],
         "$__mpe_code": {
             "position": {
-                "x": 2063,
-                "y": 1013
+                "x": 2077,
+                "y": 945
             }
         }
     },
@@ -228,8 +218,8 @@
         ],
         "$__mpe_code": {
             "position": {
-                "x": 3418,
-                "y": 798
+                "x": 3269,
+                "y": 754
             }
         }
     },
@@ -251,6 +241,7 @@
         "action": {
             "type": "Click"
         },
+        "post_delay": 1000,
         "next": [
             "下一步",
             "点击空白下一步",
@@ -261,8 +252,8 @@
         ],
         "$__mpe_code": {
             "position": {
-                "x": 1761,
-                "y": 989
+                "x": 1735,
+                "y": 970
             }
         }
     },
@@ -301,8 +292,8 @@
         ],
         "$__mpe_code": {
             "position": {
-                "x": 2388,
-                "y": 1011
+                "x": 2374,
+                "y": 898
             }
         }
     },
@@ -357,14 +348,15 @@
         "action": {
             "type": "Click"
         },
+        "post_delay": 1000,
         "next": [
-            "战斗结束截图",
-            "领取奖励"
+            "领取奖励",
+            "点击空白"
         ],
         "$__mpe_code": {
             "position": {
-                "x": 2790,
-                "y": 769
+                "x": 2794,
+                "y": 729
             }
         }
     },
@@ -393,8 +385,8 @@
         ],
         "$__mpe_code": {
             "position": {
-                "x": 1422,
-                "y": 930
+                "x": 1409,
+                "y": 924
             }
         }
     }

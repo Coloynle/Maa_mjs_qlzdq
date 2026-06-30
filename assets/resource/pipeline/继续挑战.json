@@ -3,44 +3,16 @@
         "$__mpe_code": {
             "prefix": "",
             "coordinateMode": "absolute-v1",
-            "lastSyncTime": 1782576536618,
+            "lastSyncTime": 1782737184477,
             "isModifiedExternally": false,
             "filePath": "D:\\game\\Maa_mjs_qlzdq\\assets\\resource\\pipeline\\继续挑战.json",
             "savedViewport": {
-                "x": 106,
-                "y": -1125,
-                "zoom": 0.6
+                "x": 51,
+                "y": -730,
+                "zoom": 0.75
             },
             "filename": "继续挑战",
-            "version": "v1.6.2"
-        }
-    },
-    "战斗事件": {
-        "recognition": {
-            "type": "OCR",
-            "param": {
-                "expected": [
-                    "还是走吧",
-                    "连夜抓紧",
-                    "要命一条",
-                    "不予搭理",
-                    "径直离去",
-                    "人间之事"
-                ]
-            }
-        },
-        "action": {
-            "type": "Click"
-        },
-        "next": [
-            "事件战斗",
-            "战斗事件"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 675,
-                "y": 2595
-            }
+            "version": "v1.7.0"
         }
     },
     "$__mpe_external_临时战斗_继续挑战": {
@@ -51,7 +23,7 @@
             }
         }
     },
-    "$__mpe_external_信物_继续挑战": {
+    "$__mpe_external_信物排序_继续挑战": {
         "$__mpe_code": {
             "position": {
                 "x": -78,
@@ -196,7 +168,8 @@
             "type": "Click"
         },
         "next": [
-            "继续战斗"
+            "继续战斗",
+            "停止转动"
         ],
         "$__mpe_code": {
             "position": {
@@ -219,16 +192,15 @@
                     "我来帮你",
                     "讨价还价",
                     "快睡午觉"
-                ]
+                ],
+                "order_by": "Expected"
             }
         },
         "action": {
             "type": "Click"
         },
         "next": [
-            "继续战斗"
-        ],
-        "on_error": [
+            "继续战斗",
             "偶遇朏朏"
         ],
         "$__mpe_code": {
@@ -257,9 +229,7 @@
             "type": "Click"
         },
         "next": [
-            "十常侍选择事件"
-        ],
-        "on_error": [
+            "十常侍选择事件",
             "十常侍"
         ],
         "$__mpe_code": {
@@ -319,15 +289,49 @@
             "type": "Click"
         },
         "next": [
-            "十常侍的蛊惑"
-        ],
-        "on_error": [
+            "十常侍的蛊惑",
             "十常侍选择事件"
         ],
         "$__mpe_code": {
             "position": {
                 "x": 725,
                 "y": 900
+            }
+        }
+    },
+    "取消购买": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    603,
+                    173,
+                    75,
+                    29
+                ],
+                "expected": [
+                    "购买"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    741,
+                    483,
+                    69,
+                    25
+                ]
+            }
+        },
+        "next": [
+            "退出商店"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 790,
+                "y": -405
             }
         }
     },
@@ -353,7 +357,8 @@
         "rate_limit": 1000,
         "next": [
             "退出商店",
-            "吕不韦"
+            "吕不韦",
+            "取消购买"
         ],
         "$__mpe_code": {
             "position": {
@@ -394,8 +399,8 @@
         ],
         "$__mpe_code": {
             "position": {
-                "x": 1610,
-                "y": 1535
+                "x": 1541,
+                "y": 1540
             }
         }
     },
@@ -421,7 +426,8 @@
         "rate_limit": 1000,
         "next": [
             "退出商店",
-            "巴清"
+            "巴清",
+            "取消购买"
         ],
         "$__mpe_code": {
             "position": {
@@ -459,6 +465,35 @@
             }
         }
     },
+    "战斗事件": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": [
+                    "还是走吧",
+                    "连夜抓紧",
+                    "要命一条",
+                    "不予搭理",
+                    "径直离去",
+                    "人间之事"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "next": [
+            "事件战斗",
+            "战斗事件",
+            "事件确认"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 675,
+                "y": 2595
+            }
+        }
+    },
     "拒绝投喂": {
         "recognition": {
             "type": "OCR",
@@ -478,9 +513,7 @@
             "type": "Click"
         },
         "next": [
-            "停止转动"
-        ],
-        "on_error": [
+            "停止转动",
             "拒绝投喂"
         ],
         "$__mpe_code": {
@@ -509,9 +542,7 @@
             "type": "Click"
         },
         "next": [
-            "朏朏选择事件"
-        ],
-        "on_error": [
+            "朏朏选择事件",
             "朏朏"
         ],
         "$__mpe_code": {
@@ -540,9 +571,7 @@
             "type": "Click"
         },
         "next": [
-            "偶遇朏朏"
-        ],
-        "on_error": [
+            "偶遇朏朏",
             "朏朏选择事件"
         ],
         "$__mpe_code": {
@@ -596,7 +625,8 @@
                     "稳中求进",
                     "固本培元",
                     "劫营速战"
-                ]
+                ],
+                "order_by": "Expected"
             }
         },
         "action": {
@@ -612,8 +642,8 @@
         ],
         "$__mpe_code": {
             "position": {
-                "x": 693,
-                "y": 600
+                "x": 741,
+                "y": 572
             }
         }
     },
@@ -636,15 +666,13 @@
             "type": "Click"
         },
         "next": [
+            "点击继续",
             "属性变化"
-        ],
-        "on_error": [
-            "点击继续"
         ],
         "$__mpe_code": {
             "position": {
-                "x": 1401,
-                "y": 1230
+                "x": 1333,
+                "y": 1229
             }
         }
     },
@@ -667,7 +695,8 @@
             "type": "Click"
         },
         "next": [
-            "狗卡选择事件"
+            "狗卡选择事件",
+            "狗卡"
         ],
         "$__mpe_code": {
             "position": {
@@ -695,10 +724,8 @@
             "type": "Click"
         },
         "next": [
-            "拒绝投喂"
-        ],
-        "on_error": [
-            "狗卡"
+            "拒绝投喂",
+            "狗卡选择事件"
         ],
         "$__mpe_code": {
             "position": {
@@ -753,6 +780,7 @@
                 ]
             }
         },
+        "post_delay": 1000,
         "next": [
             "默认战斗",
             "巴清",
@@ -768,7 +796,7 @@
             "属性变化"
         ],
         "on_error": [
-            "信物"
+            "信物排序"
         ],
         "$__mpe_code": {
             "position": {
@@ -796,9 +824,7 @@
             "type": "Click"
         },
         "next": [
-            "选择武将"
-        ],
-        "on_error": [
+            "选择武将",
             "诸葛亮"
         ],
         "$__mpe_code": {
@@ -829,28 +855,28 @@
             }
         },
         "next": [
-            "点击继续",
-            "诸葛亮事件"
+            "诸葛亮事件",
+            "点击继续"
         ],
         "$__mpe_code": {
             "position": {
-                "x": 1031,
-                "y": 1220
+                "x": 960,
+                "y": 1219
             }
         }
     },
     "退出商店": {
         "recognition": {
-            "type": "TemplateMatch",
+            "type": "OCR",
             "param": {
                 "roi": [
-                    33,
-                    502,
-                    51,
-                    53
+                    623,
+                    251,
+                    577,
+                    301
                 ],
-                "template": [
-                    "商店增益.png"
+                "expected": [
+                    "武将牌"
                 ]
             }
         },
@@ -867,12 +893,13 @@
         },
         "next": [
             "退出提示",
-            "退出商店"
+            "退出商店",
+            "取消购买"
         ],
         "$__mpe_code": {
             "position": {
-                "x": 669,
-                "y": 26
+                "x": 745,
+                "y": -125
             }
         }
     },
@@ -924,15 +951,13 @@
             "type": "Click"
         },
         "next": [
-            "诸葛亮事件"
-        ],
-        "on_error": [
+            "诸葛亮事件",
             "选择武将"
         ],
         "$__mpe_code": {
             "position": {
                 "x": 668,
-                "y": 1196
+                "y": 1164
             }
         }
     },
@@ -975,7 +1000,7 @@
                     349
                 ],
                 "template": [
-                    "战斗3.png"
+                    "战斗.png"
                 ]
             }
         },

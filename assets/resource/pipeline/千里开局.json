@@ -3,16 +3,16 @@
         "$__mpe_code": {
             "prefix": "",
             "coordinateMode": "absolute-v1",
-            "lastSyncTime": 1782525195644,
+            "lastSyncTime": 1782702964497,
             "isModifiedExternally": false,
             "filePath": "D:\\game\\Maa_mjs_qlzdq\\assets\\resource\\pipeline\\千里开局.json",
             "savedViewport": {
-                "x": -439,
-                "y": 112,
-                "zoom": 0.93
+                "x": 125,
+                "y": 296,
+                "zoom": 0.63
             },
             "filename": "千里开局",
-            "version": "v1.6.2"
+            "version": "v1.7.0"
         }
     },
     "千里开局": {
@@ -42,7 +42,7 @@
             }
         },
         "next": [
-            "选将吕布"
+            "自定义选将"
         ],
         "$__mpe_code": {
             "position": {
@@ -153,13 +153,13 @@
             "type": "TemplateMatch",
             "param": {
                 "roi": [
-                    1154,
-                    135,
-                    55,
+                    1067,
+                    335,
+                    71,
                     57
                 ],
                 "template": [
-                    "史诗稀有度.png"
+                    "战役属性.png"
                 ]
             }
         },
@@ -175,8 +175,8 @@
             }
         },
         "next": [
-            "开始挑战",
-            "退出选将"
+            "退出选将",
+            "重置赠礼状态"
         ],
         "$__mpe_code": {
             "position": {
@@ -185,9 +185,9 @@
             }
         }
     },
-    "选将吕布": {
+    "自定义选将": {
         "recognition": {
-            "type": "TemplateMatch",
+            "type": "OCR",
             "param": {
                 "roi": [
                     100,
@@ -195,17 +195,25 @@
                     1107,
                     173
                 ],
-                "template": [
-                    "吕布.png"
+                "expected": [
+                    "{选将}"
                 ]
             }
         },
         "action": {
-            "type": "Click"
+            "type": "Click",
+            "param": {
+                "target_offset": [
+                    0,
+                    -40,
+                    0,
+                    19
+                ]
+            }
         },
         "next": [
             "退出选将",
-            "选将吕布"
+            "自定义选将"
         ],
         "$__mpe_code": {
             "position": {
@@ -213,6 +221,18 @@
                 "y": 15
             }
         }
+    },
+    "重置赠礼状态": {
+    "recognition": {
+        "type": "DirectHit"
+    },
+    "action": {
+        "type": "Custom",
+        "param": {"custom_action": "reset_gift_state"}
+    },
+    "next": [
+        "开始挑战"
+        ]
     },
     "$__mpe_external_临时战斗_千里开局": {
         "$__mpe_code": {
