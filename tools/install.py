@@ -149,7 +149,7 @@ def install_agent(os_name):
         print(f"Unsupported OS: {os_name}")
         sys.exit(1)
 
-    interface["agent"]["child_args"] = ["-u", r"agent/custom/gift_action.py"]
+    interface["agent"]["child_args"] = ["-u", r"agent/main.py"]
 
     with open(install_path / "interface.json", "w", encoding="utf-8") as f:
         json.dump(interface, f, ensure_ascii=False, indent=4)
