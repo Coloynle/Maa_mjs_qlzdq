@@ -1,9 +1,11 @@
-from pathlib import Path
-
-import shutil
 import sys
-
 import json
+from pathlib import Path
+import shutil
+import os
+
+script_dir = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(script_dir)
 
 from configure import configure_ocr_model
 
