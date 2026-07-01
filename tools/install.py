@@ -3,14 +3,7 @@ from pathlib import Path
 import shutil
 import sys
 
-try:
-    import jsonc
-except ModuleNotFoundError as e:
-    raise ImportError(
-        "Missing dependency 'json-with-comments' (imported as 'jsonc').\n"
-        f"Install it with:\n  {sys.executable} -m pip install json-with-comments\n"
-        "Or add it to your project's requirements."
-    ) from e
+import json
 
 from configure import configure_ocr_model
 
@@ -112,12 +105,12 @@ def install_resource():
     )
 
     with open(install_path / "interface.json", "r", encoding="utf-8") as f:
-        interface = jsonc.load(f)
+        interface = json.load(f)
 
     interface["version"] = version
 
     with open(install_path / "interface.json", "w", encoding="utf-8") as f:
-        jsonc.dump(interface, f, ensure_ascii=False, indent=4)
+        json.dump(interface, f, ensure_ascii=False, indent=4)
 
 
 def install_chores():
@@ -139,7 +132,7 @@ def install_agent(os_name):
     )
 
     with open(install_path / "interface.json", "r", encoding="utf-8") as f:
-        interface = jsonc.load(f)
+        interface = json.load(f)
 
     # 根据平台指向嵌入式 Python
     if os_name == "win":
@@ -157,7 +150,7 @@ def install_agent(os_name):
     interface["agent"]["child_args"] = ["-u", r"agent/custom/gift_action.py"]
 
     with open(install_path / "interface.json", "w", encoding="utf-8") as f:
-        jsonc.dump(interface, f, ensure_ascii=False, indent=4)
+        json.dump(interface, f, ensure_ascii=False, indent=4)
 
 
 if __name__ == "__main__":

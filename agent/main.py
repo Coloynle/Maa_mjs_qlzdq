@@ -6,7 +6,6 @@
   _claimed_cat2: set[str]   — 已拿到"驰援"并排除的武将名
 """
 
-maa
 from datetime import datetime
 import json
 import os
@@ -142,11 +141,63 @@ def _ocr_active_general(context: Context, category: str, list_str: str = ""):
     return None
 
 
+# 验证消失
+def _click_general_until_gone(context, category, list_str):
+    """
+    循环 _ocr_active_general（动态排除已领取）→ 点击 → 验证武将消失。
+    返回最后一次点击的武将名，无匹配武将时返回 None。
+    """
+    last_name = None
+    for _ in range(15):
+        result = _ocr_active_general(context, category, list_str)
+        if not result:
+            break  # 武将已消失 → 点击生效了
+        _click_and_wait(context, result.box)
+        last_name = result.text
+        time.sleep(0.3)
+    return last_name
+
+
 # 点击赠礼
 def _click_and_wait(context, box):
     cx = box[0] + box[2] // 2
     cy = box[1] + box[3] // 2
     context.tasker.controller.post_click(cx, cy).wait()
+
+
+# 循环点击验证
+def _click_until_gone(context, roi, expected, click_delay=0.5, max_tries=15):
+    """
+    循环 OCR → 点击 → 验证目标消失。
+    expected 列表里的目标任意一个出现就点，点到它消失为止。
+    返回最后一次点击到的文本（用于日志），从未出现过则返回 None。
+    """
+    last_text = None
+    for _ in range(max_tries):
+        context.tasker.controller.post_screencap().wait()
+        try:
+            image = context.tasker.controller.cached_image
+        except RuntimeError:
+            time.sleep(0.2)
+            continue
+        reco = context.run_recognition(
+            "_click_until_gone",
+            image,
+            {
+                "_click_until_gone": {
+                    "recognition": "OCR",
+                    "roi": roi,
+                    "expected": expected,
+                    "order_by": "Expected",
+                }
+            },
+        )
+        if not reco or not reco.hit or not reco.best_result:
+            break  # 目标已消失 → 点击生效了
+        _click_and_wait(context, reco.best_result.box)
+        last_text = reco.best_result.text
+        time.sleep(click_delay)
+    return last_text
 
 
 # 截图识别
@@ -276,61 +327,73 @@ class HandleGiftSelection(CustomAction):
         print(f"[{current_time}] [GiftAgent] 已领取 cat1: {_claimed_cat1}")
         print(f"[{current_time}] [GiftAgent] 已领取 cat2: {_claimed_cat2}")
 
-        context.tasker.controller.post_screencap().wait()
-        result = _ocr_active_general(context, "cat1", cat1_list)
-        if result:
-            _click_and_wait(context, result.box)
-            item = _poll_ocr(context, [522, 171, 171, 377], ["信物"])
-            if item:
-                _click_and_wait(context, item.box)
-                with _claimed_cat1_lock:
-                    _claimed_cat1.add(result.text)
-            else:
-                # 添加 fallback：如果没有信物，尝试其他选项
-                fallback = _poll_ocr(
+        for outer in range(10):
+            # 外层：验证赠礼界面是否还开着
+            context.tasker.controller.post_screencap().wait()
+            try:
+                image = context.tasker.controller.cached_image
+            except RuntimeError:
+                continue
+            reco = context.run_recognition(
+                "_check_gift",
+                image,
+                {
+                    "_check_gift": {
+                        "recognition": "OCR",
+                        "roi": [570, 597, 135, 48],
+                        "expected": ["接受谁的"],
+                    }
+                },
+            )
+            if not (reco and reco.hit and reco.best_result):
+                print(f"[{current_time}] [GiftAgent] 赠礼完成")
+                return True
+
+            # ========== cat1 分支 ==========
+            name = _click_general_until_gone(context, "cat1", cat1_list)
+            if name:
+                print(f"[{current_time}] [GiftAgent] cat1 选中 {name}")
+                # 内层：选奖励，先找信物，找不到就 fallback
+                _click_until_gone(context, [522, 171, 171, 377], ["信物"], 0.5, 15)
+                _click_until_gone(
                     context,
                     [522, 171, 171, 377],
                     ["驰援", "资助", "武将牌", "并肩作战"],
-                    timeout=2,
+                    0.5,
+                    10,
                 )
-                if fallback:
-                    _click_and_wait(context, fallback.box)
-            time.sleep(0.5)
-            return True
+                with _claimed_cat1_lock:
+                    _claimed_cat1.add(name)
+                continue
 
-        context.tasker.controller.post_screencap().wait()
-        result = _ocr_active_general(context, "cat2", cat2_list)
-        if result:
-            _click_and_wait(context, result.box)
-            item = _poll_ocr(context, [522, 171, 171, 377], ["驰援"])
-            if item:
-                _click_and_wait(context, item.box)
-                with _claimed_cat2_lock:
-                    _claimed_cat2.add(result.text)
-            else:
-                fallback = _poll_ocr(
+            # ========== cat2 分支 ==========
+            name = _click_general_until_gone(context, "cat2", cat2_list)
+            if name:
+                print(f"[{current_time}] [GiftAgent] cat2 选中 {name}")
+                _click_until_gone(context, [522, 171, 171, 377], ["驰援"], 0.5, 15)
+                _click_until_gone(
                     context,
                     [522, 171, 171, 377],
                     ["资助", "武将牌", "信物", "并肩作战"],
-                    timeout=2,
+                    0.5,
+                    10,
                 )
-                if fallback:
-                    _click_and_wait(context, fallback.box)
-            time.sleep(0.5)
-            return True
+                with _claimed_cat2_lock:
+                    _claimed_cat2.add(name)
+                continue
 
-        fallback = _poll_ocr(context, [531, 504, 220, 51], ["赠礼"], timeout=3)
-        if fallback:
-            _click_and_wait(context, fallback.box)
-            sort = _poll_ocr(
-                context,
-                [522, 171, 171, 377],
-                ["资助", "武将牌", "驰援", "信物", "并肩作战"],
-                timeout=3,
-            )
-            if sort:
-                _click_and_wait(context, sort.box)
-                time.sleep(0.5)
+            # ========== fallback 分支 ==========
+            if _click_until_gone(context, [531, 504, 220, 51], ["赠礼"], 0.5, 10):
+                print(f"[{current_time}] [GiftAgent] fallback 选中赠礼")
+                _click_until_gone(
+                    context,
+                    [522, 171, 171, 377],
+                    ["资助", "武将牌", "驰援", "信物", "并肩作战"],
+                    0.5,
+                    10,
+                )
+
+        # 外层 10 轮耗尽，保底退出
         return True
 
 
@@ -419,10 +482,11 @@ def main():
 
 
 if __name__ == "__main__":
-    version = sys.argv[1]
-    os_name = sys.argv[2]
-    arch = sys.argv[3]
-    install_maafw(os_name, arch)
-    install_resource(version)
-    install_chores()
-    install_agent(os_name)
+    main()
+    # version = sys.argv[1]
+    # os_name = sys.argv[2]
+    # arch = sys.argv[3]
+    # install_maafw(os_name, arch)
+    # install_resource(version)
+    # install_chores()
+    # install_agent(os_name)
