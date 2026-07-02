@@ -18,6 +18,7 @@ from maa.custom_action import CustomAction
 from maa.context import Context
 from maa.pipeline import JRecognitionType, JOCR
 import cv2
+
 from maa.tasker import Tasker
 
 # 默认武将列表（当所有来源都为空时回退）
