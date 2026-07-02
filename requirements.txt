@@ -1,2 +1,1 @@
-opencv-python
-maafw==5.10.5
+maafw==5.10.4

@@ -138,10 +138,7 @@ def install_agent(os_name):
 
     # 根据平台指向嵌入式 Python
     if os_name == "win":
-        embed_python = install_path / "python" / "python.exe"
-        interface["agent"]["child_exec"] = (
-            r"python/python.exe" if embed_python.exists() else sys.executable
-        )
+        interface["agent"]["child_exec"] = r"python/python.exe"
     elif os_name == "macos":
         interface["agent"]["child_exec"] = r"python/bin/python3"
     elif os_name == "linux":
@@ -152,7 +149,7 @@ def install_agent(os_name):
         print(f"Unsupported OS: {os_name}")
         sys.exit(1)
 
-    interface["agent"]["child_args"] = ["-u", r"./agent/main.py"]
+    interface["agent"]["child_args"] = ["-u", r"agent/main.py"]
 
     with open(install_path / "interface.json", "w", encoding="utf-8") as f:
         json.dump(interface, f, ensure_ascii=False, indent=4)

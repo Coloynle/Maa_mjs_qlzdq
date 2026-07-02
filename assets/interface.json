@@ -93,7 +93,7 @@
     },
     "agent":{  
         "child_exec": "python",  
-        "child_args": ["-u","../agent/main.py"]  
+        "child_args": ["../agent/main.py"]  
     },
     "preset": [
         {

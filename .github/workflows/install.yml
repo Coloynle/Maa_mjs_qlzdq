@@ -121,7 +121,7 @@ jobs:
 
       - name: Install Python dependencies into embedded Python
         shell: bash
-        run: ./install/python/python.exe -m pip install --no-index --find-links install/deps -r requirements.txt
+        run: ./install/python/python.exe -m pip install --no-index --find-links install/deps maafw
 
       - name: Install
         shell: bash
