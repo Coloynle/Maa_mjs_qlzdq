@@ -3,24 +3,24 @@
         "$__mpe_code": {
             "prefix": "",
             "filePath": "D:\\game\\Maa_mjs_qlzdq\\assets\\resource\\pipeline\\临时战斗.json",
-            "lastSyncTime": 1782829862431,
+            "lastSyncTime": 1783010138421,
             "isDeleted": true,
             "isModifiedExternally": false,
             "coordinateMode": "absolute-v1",
             "savedViewport": {
-                "x": -993,
-                "y": -141,
-                "zoom": 0.6
+                "x": -415,
+                "y": 92,
+                "zoom": 0.31
             },
             "filename": "临时战斗",
-            "version": "v1.7.1"
+            "version": "v1.7.2"
         }
     },
     "$__mpe_external_千里开局_临时战斗": {
         "$__mpe_code": {
             "position": {
-                "x": 3767,
-                "y": 871
+                "x": 3813,
+                "y": 833
             }
         }
     },
@@ -43,8 +43,8 @@
     "$__mpe_external_继续战斗_临时战斗": {
         "$__mpe_code": {
             "position": {
-                "x": 2859,
-                "y": 1541
+                "x": 2743,
+                "y": 1561
             }
         }
     },
@@ -157,8 +157,8 @@
         ],
         "$__mpe_code": {
             "position": {
-                "x": 2779,
-                "y": 1140
+                "x": 2763,
+                "y": 1186
             }
         }
     },
@@ -387,8 +387,8 @@
         ],
         "$__mpe_code": {
             "position": {
-                "x": 2636,
-                "y": 865
+                "x": 2754,
+                "y": 793
             }
         }
     },

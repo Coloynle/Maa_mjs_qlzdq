@@ -3,44 +3,16 @@
         "$__mpe_code": {
             "prefix": "",
             "coordinateMode": "absolute-v1",
-            "lastSyncTime": 1782828606817,
+            "lastSyncTime": 1783008918758,
             "isModifiedExternally": false,
             "filePath": "D:\\game\\Maa_mjs_qlzdq\\assets\\resource\\pipeline\\千里开局.json",
             "savedViewport": {
-                "x": -148,
-                "y": 160,
-                "zoom": 0.6
+                "x": -129,
+                "y": 326,
+                "zoom": 0.5
             },
             "filename": "千里开局",
-            "version": "v1.7.0"
-        }
-    },
-    "限制冲榜": {
-        "recognition": {
-            "type": "DirectHit",
-            "param": {
-                "roi": [
-                    239,
-                    45,
-                    42,
-                    49
-                ]
-            }
-        },
-        "action": {
-            "type": "Custom",
-            "param": {
-                "custom_action": "CheckNumberAndStop"
-            }
-        },
-        "next": [
-            "初始战斗"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 1306,
-                "y": 143
-            }
+            "version": "v1.7.2"
         }
     },
     "$__mpe_external_临时战斗_千里开局": {
@@ -48,6 +20,44 @@
             "position": {
                 "x": 2225,
                 "y": 219
+            }
+        }
+    },
+    "初始战斗": {
+        "recognition": {
+            "type": "TemplateMatch",
+            "param": {
+                "roi": [
+                    433,
+                    282,
+                    29,
+                    24
+                ],
+                "template": [
+                    "战斗图2.png",
+                    "战斗.png"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target_offset": [
+                    0,
+                    -20,
+                    0,
+                    0
+                ]
+            }
+        },
+        "next": [
+            "对局",
+            "初始战斗"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 1620,
+                "y": 143
             }
         }
     },
@@ -146,44 +156,6 @@
             }
         }
     },
-    "初始战斗": {
-        "recognition": {
-            "type": "TemplateMatch",
-            "param": {
-                "roi": [
-                    433,
-                    282,
-                    29,
-                    24
-                ],
-                "template": [
-                    "战斗图2.png",
-                    "战斗.png"
-                ]
-            }
-        },
-        "action": {
-            "type": "Click",
-            "param": {
-                "target_offset": [
-                    0,
-                    -20,
-                    0,
-                    0
-                ]
-            }
-        },
-        "next": [
-            "对局",
-            "初始战斗"
-        ],
-        "$__mpe_code": {
-            "position": {
-                "x": 1620,
-                "y": 143
-            }
-        }
-    },
     "自定义选将": {
         "recognition": {
             "type": "OCR",
@@ -195,7 +167,7 @@
                     173
                 ],
                 "expected": [
-                    "{选将}"
+                    "吕布"
                 ]
             }
         },
@@ -255,6 +227,34 @@
             "position": {
                 "x": 652,
                 "y": 59
+            }
+        }
+    },
+    "限制冲榜": {
+        "recognition": {
+            "type": "DirectHit",
+            "param": {
+                "roi": [
+                    239,
+                    45,
+                    42,
+                    49
+                ]
+            }
+        },
+        "action": {
+            "type": "Custom",
+            "param": {
+                "custom_action": "CheckNumberAndStop"
+            }
+        },
+        "next": [
+            "初始战斗"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 1306,
+                "y": 143
             }
         }
     }

@@ -293,7 +293,7 @@ class CheckNumberAndStop(CustomAction):
         if reco_detail and reco_detail.hit:
             # 从识别结果中提取数字文本
             text = reco_detail.best_result.text
-            # print("超过限制65，不允许冲榜")
+            print(f"当前层数为{text}")
 
             try:
                 # 尝试将文本转换为数字

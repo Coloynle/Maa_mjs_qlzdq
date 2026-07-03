@@ -7,8 +7,8 @@
             "isModifiedExternally": false,
             "filePath": "D:\\game\\Maa_mjs_qlzdq\\assets\\resource\\pipeline\\继续挑战.json",
             "savedViewport": {
-                "x": 16,
-                "y": -285,
+                "x": 257,
+                "y": 194,
                 "zoom": 0.5
             },
             "filename": "继续挑战",
@@ -250,8 +250,7 @@
             "type": "Click"
         },
         "next": [
-            "继续战斗",
-            "属性变化"
+            "继续战斗"
         ],
         "$__mpe_code": {
             "position": {

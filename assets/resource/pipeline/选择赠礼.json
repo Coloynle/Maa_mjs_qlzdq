@@ -3,16 +3,24 @@
         "$__mpe_code": {
             "prefix": "",
             "filePath": "D:\\game\\Maa_mjs_qlzdq\\assets\\resource\\pipeline\\选择赠礼.json",
-            "lastSyncTime": 1782793892188,
+            "lastSyncTime": 1783005180506,
             "isModifiedExternally": false,
             "coordinateMode": "absolute-v1",
             "savedViewport": {
-                "x": 535,
-                "y": 175,
-                "zoom": 0.4
+                "x": 437,
+                "y": 230,
+                "zoom": 0.5
             },
             "filename": "选择赠礼",
-            "version": "v1.7.0"
+            "version": "v1.7.2"
+        }
+    },
+    "$__mpe_external_属性变化_选择赠礼": {
+        "$__mpe_code": {
+            "position": {
+                "x": 602,
+                "y": 166
+            }
         }
     },
     "$__mpe_external_确认_选择赠礼": {
@@ -32,7 +40,6 @@
         }
     },
     "动态选择赠礼": {
-        "recognition": { "type": "DirectHit" },
         "action": {
             "type": "Custom",
             "param": {
@@ -45,21 +52,35 @@
         },
         "focus": "动态选择赠礼",
         "next": [
-            "继续战斗"
+            "继续战斗",
+            "属性变化"
         ],
-        "on_error": ["赠礼选择失败"],
+        "on_error": [
+            "赠礼选择失败"
+        ],
         "$__mpe_code": {
             "position": {
-                "x": 224,
-                "y": 318
+                "x": 180,
+                "y": 330
             }
         }
     },
-    "赠礼选择失败": {  
-        "recognition": "DirectHit",  
-        "action": "Custom",  
-        "custom_action": "handle_gift_fallback",
-        "next": ["继续战斗"]
+    "赠礼选择失败": {
+        "action": {
+            "type": "Custom",
+            "param": {
+                "custom_action": "handle_gift_fallback"
+            }
+        },
+        "next": [
+            "继续战斗"
+        ],
+        "$__mpe_code": {
+            "position": {
+                "x": 713,
+                "y": 497
+            }
+        }
     },
     "选择赠礼": {
         "recognition": {
